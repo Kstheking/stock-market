@@ -3,5 +3,5 @@
     Welcome to {{title}}!
   </h1>
 </div>
-  <app-stock-item></app-stock-item>
+  <app-stock-item [stock]="stockObj" (toggleFavorite)="toggly($event)" ></app-stock-item>
 <router-outlet></router-outlet>
