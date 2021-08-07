@@ -1,10 +1,55 @@
 <h2>create stock form</h2>
 
 <div class="form-group">
-    <form >
+    <form (ngSubmit)="createStock(stockForm)" #stockForm="ngForm">
         <div class="stock-name">
-            <input type="text" placeholder="Stock Name" [value]="stock.name" (input)="fillInput($event)">
+            <input type="text" placeholder="Stock Name" required name="stockName" [ngModel]="stock.name"
+                (ngModelChange)="stock.name=$event" #stockName="ngModel">
         </div>
+
+        <div *ngIf="stockName.errors && stockName.errors.required"> Stock name is mandatory</div>
+
+        <div class="stock-code">
+            <input type="text" name="stockCode" required minlength="2" placeholder="Stock code" [(ngModel)]="stock.code" #stockCode="ngModel">
+        </div>
+
+        <div *ngIf="stockCode.dirty && stockCode.invalid && stockCode.errors ">
+            <div *ngIf="stockCode.errors.required">
+                Stock code is mandatory
+            </div>
+            <div *ngIf="stockCode.errors.minlength">
+                Stock code must be atleast 2 charas long
+            </div>
+
+        </div>
+
+        <div class="stock-price">
+            <input type="number" name="stockPrice" placeholder="Stock price" required #stockPrice="ngModel" [ngModel]="stock.price"
+                (ngModelChange)="setStockPrice($event)">
+        </div>
+
+        <div *ngIf="stockPrice.dirty && stockPrice.invalid && stockPrice.errors">
+            <div *ngIf="stockPrice.errors.required">
+                Stock price is required
+            </div>
+        </div>
+
+        <div class="stock-exchange">
+            <div>
+                <input type="radio" name="stockExchange" [(ngModel)]="stock.exchange" value="NYSE"> NYSE
+            </div>
+            <div>
+                <input type="radio" name="stockExchange" [(ngModel)]="stock.exchange" value="NASDAQ"> NASDAQ
+            </div>
+            <div>
+                <input type="radio" name="stockExchange" [(ngModel)]="stock.exchange" value="OTHER"> OTHER
+            </div>
+        </div>
+        <div class="stock-confirm">
+            <input type="checkbox" name="stockConfirm" [(ngModel)]="confirmed">
+            I swear to god that the info above is correct !!
+        </div>
+        <button [disabled]="!confirmed" type="submit">Create</button>
     </form>
     <button (click)="stock.name='test'">Reset stock name</button>
 </div>

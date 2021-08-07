@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Stock } from 'src/app/model/stock';
 
 @Component({
@@ -8,8 +9,9 @@ import { Stock } from 'src/app/model/stock';
 })
 export class CreateStockComponent implements OnInit {
   public stock!: Stock;
+  public confirmed = false;
   constructor() {
-    this.stock = new Stock('test', '', 0, 0);
+    this.stock = new Stock('', '', 0, 0, 'NASDQ');
    }
 
   ngOnInit(): void {
@@ -17,6 +19,21 @@ export class CreateStockComponent implements OnInit {
 
   fillInput(event: any){
     this.stock.name = (event.target as HTMLInputElement).value;
+  }
+
+  setStockPrice(price: number){
+    this.stock.price = price;
+    this.stock.previousPrice = price;
+  }
+
+  createStock(stockForm: NgForm){
+    console.log('Stock form', stockForm);
+    if(stockForm.valid){
+      console.log('Creating stock', this.stock);
+    }
+    else{
+      console.log("yo this is invalid brother");
+    }
   }
 
 }

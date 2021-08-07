@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   public stockObj!: Stock;
   ngOnInit(): void{
-    this.stockObj = new Stock('Test stock company', 'TSC', 35, 30);
+    this.stockObj = new Stock('Test stock company', 'TSC', 35, 30, 'ehe');
   }
 
   toggly(stock: Stock){
