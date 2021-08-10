@@ -27,8 +27,9 @@ export class CreateStockComponent implements OnInit {
   }
 
   createStock(stockForm: NgForm){
-    console.log('Stock form', stockForm);
+    console.log('Stock form', stockForm.value);
     if(stockForm.valid){
+      this.stock = stockForm.value.stock;
       console.log('Creating stock', this.stock);
     }
     else{
