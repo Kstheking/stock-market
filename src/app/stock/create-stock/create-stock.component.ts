@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Stock } from 'src/app/model/stock';
 
 @Component({
@@ -8,33 +8,24 @@ import { Stock } from 'src/app/model/stock';
   styleUrls: ['./create-stock.component.css']
 })
 export class CreateStockComponent implements OnInit {
-  public stock!: Stock;
-  public confirmed = false;
-  constructor() {
-    this.stock = new Stock('', '', 0, 0, 'NASDQ');
+  public stockForm!: FormGroup;
+  constructor(private fb: FormBuilder) {
+    this.createForm();
+   }
+
+   createForm(){
+     this.stockForm = this.fb.group({
+       name: [null, Validators.required],
+       code: [null, [Validators.required, Validators.minLength(2)]],
+       price: [0, [Validators.required, Validators.min(0)]]
+     })
    }
 
   ngOnInit(): void {
   }
 
-  fillInput(event: any){
-    this.stock.name = (event.target as HTMLInputElement).value;
+  onSubmit(){
+    console.log(this.stockForm.value);
   }
-
-  setStockPrice(price: number){
-    this.stock.price = price;
-    this.stock.previousPrice = price;
-  }
-
-  createStock(stockForm: NgForm){
-    console.log('Stock form', stockForm.value);
-    if(stockForm.valid){
-      this.stock = stockForm.value.stock;
-      console.log('Creating stock', this.stock);
-    }
-    else{
-      console.log("yo this is invalid brother");
-    }
-  }
-
+  
 }
